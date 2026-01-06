@@ -1,0 +1,19 @@
+use serde::de::DeserializeOwned;
+use tauri::{plugin::PluginApi, AppHandle, Runtime};
+use crate::Error;
+
+pub fn init<R: Runtime, C: DeserializeOwned>(
+  app: &AppHandle<R>,
+  _api: PluginApi<R, C>,
+) -> crate::Result<Review<R>> {
+  Ok(Review(app.clone()))
+}
+
+/// Access to the review APIs.
+pub struct Review<R: Runtime>(AppHandle<R>);
+
+impl<R: Runtime> Review<R> {
+  pub fn request_review(&self) -> crate::Result<()> {
+    Err(Error::UnsupportedPlatform)
+  }
+}

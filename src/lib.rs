@@ -1,38 +1,45 @@
-
 use tauri::{
-    plugin::{Builder, TauriPlugin},
-    Manager, Runtime,
+  plugin::{Builder, TauriPlugin},
+  Manager, Runtime,
 };
 
-#[cfg(target_os = "android")]
-use tauri::plugin::PluginHandle;
+#[cfg(desktop)]
+mod desktop;
+#[cfg(mobile)]
+mod mobile;
 
-#[tauri::command]
-async fn request_review<R: Runtime>(
-    app: tauri::AppHandle<R>,
-    _window: tauri::Window<R>,
-) -> Result<(), String> {
-    #[cfg(target_os = "android")]
-    {
-        app.plugin_manager()
-            .android()
-            .run_then_drop(|plugin_handle| {
-                plugin_handle
-                    .invoke("requestReview", serde_json::Value::Null)
-                    .map_err(|e| e.to_string())
-            })
-            .await?;
-        Ok(())
-    }
-    
-    #[cfg(not(target_os = "android"))]
-    {
-        Err("In-app review is only supported on Android".to_string())
-    }
+mod commands;
+mod error;
+
+pub use error::{Error, Result};
+
+#[cfg(desktop)]
+use desktop::Review;
+#[cfg(mobile)]
+use mobile::Review;
+
+/// Extensions to [`tauri::App`], [`tauri::AppHandle`] and [`tauri::Window`] to access the review APIs.
+pub trait ReviewExt<R: Runtime> {
+  fn review(&self) -> &Review<R>;
 }
 
+impl<R: Runtime, T: Manager<R>> crate::ReviewExt<R> for T {
+  fn review(&self) -> &Review<R> {
+    self.state::<Review<R>>().inner()
+  }
+}
+
+/// Initializes the plugin.
 pub fn init<R: Runtime>() -> TauriPlugin<R> {
-    Builder::new("review")
-        .invoke_handler(tauri::generate_handler![request_review])
-        .build()
+  Builder::new("review")
+    .invoke_handler(tauri::generate_handler![commands::request_review])
+    .setup(|app, api| {
+      #[cfg(mobile)]
+      let review = mobile::init(app, api)?;
+      #[cfg(desktop)]
+      let review = desktop::init(app, api)?;
+      app.manage(review);
+      Ok(())
+    })
+    .build()
 }
