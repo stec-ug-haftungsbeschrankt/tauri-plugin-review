@@ -1,4 +1,4 @@
-package com.plugin.review
+package de.stecug.tauri.plugin.review
 
 import android.app.Activity
 import app.tauri.annotation.Command

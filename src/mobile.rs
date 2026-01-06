@@ -25,7 +25,7 @@ pub fn init<R: Runtime, C: DeserializeOwned>(
 pub struct Review<R: Runtime>(PluginHandle<R>);
 
 impl<R: Runtime> Review<R> {
-  pub fn ping(&self) -> crate::Result<()> {
+  pub fn request_review(&self) -> crate::Result<()> {
     self
       .0
       .run_mobile_plugin("requestReview")
