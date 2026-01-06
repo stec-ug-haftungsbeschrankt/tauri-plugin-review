@@ -28,7 +28,7 @@ impl<R: Runtime> Review<R> {
   pub fn request_review(&self) -> crate::Result<()> {
     self
       .0
-      .run_mobile_plugin("requestReview")
+      .run_mobile_plugin("requestReview", ())
       .map_err(Into::into)
   }
 }
