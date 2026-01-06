@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Review Plugin Permissions",
+  "description": "Permissions for the review plugin",
+  "type": "object",
+  "properties": {
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "enum": [
+            "allow-request-review"
+          ]
+        },
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "command": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "command"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "identifier",
+        "allow"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "permissions"
+  ],
+  "additionalProperties": false,
+  "default": {
+    "permissions": {
+      "identifier": "allow-request-review",
+      "allow": [
+        {
+          "command": "request_review"
+        }
+      ]
+    }
+  }
+}
