@@ -1,21 +1,43 @@
-# Tauri Plugin Review Permissions
-
 ## Default Permission
 
-This permission set configures what kind of operations are available from the review plugin.
+Default permissions for the plugin
 
-### Permission Table
+#### This default permission set includes the following:
 
-| Identifier | Description |
-|-----------|-------------|
-| `allow-request-review` | Enables the request_review command to trigger in-app review flow |
+- `review`
 
-## Permission Groups
+## Permission Table
 
-### `allow-request-review`
+<table>
+<tr>
+<th>Identifier</th>
+<th>Description</th>
+</tr>
 
-Allows requesting an in-app review from the user
 
-**Granted Permissions**
+<tr>
+<td>
 
-All commands are allowed by default
+`review:allow-request-review`
+
+</td>
+<td>
+
+Enables the request_review command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`review:deny-request-review`
+
+</td>
+<td>
+
+Denies the request_review command without any pre-configured scope.
+
+</td>
+</tr>
+</table>

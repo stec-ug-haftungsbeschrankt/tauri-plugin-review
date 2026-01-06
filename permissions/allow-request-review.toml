@@ -1,6 +1,0 @@
-"$schema" = "schemas/schema.json"
-
-[[permissions]]
-identifier = "allow-request-review"
-description = "Permissions for the review plugin"
-commands.allow = ["request_review"]
