@@ -4,18 +4,6 @@ pluginManagement {
         gradlePluginPortal()
         google()
     }
-    resolutionStrategy {
-        eachPlugin {
-            switch (requested.id.id) {
-                case "com.android.library":
-                    useVersion("8.7.3")
-                    break
-                case "org.jetbrains.kotlin.android":
-                    useVersion("2.1.0")
-                    break
-            }
-        }
-    }
 }
 
 dependencyResolutionManagement {
